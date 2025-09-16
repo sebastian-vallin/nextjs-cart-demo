@@ -177,7 +177,7 @@ export function CheckoutForm({ disabled = false }: { disabled?: boolean }) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="sv">Sweden</SelectItem>
+                    <SelectItem value="se">Sweden</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
