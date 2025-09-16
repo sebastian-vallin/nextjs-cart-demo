@@ -21,6 +21,9 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
+import { submitOrder } from "@/checkout/actions";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.email("Invalid email address"),
@@ -29,12 +32,14 @@ const formSchema = z.object({
   address: z.string().min(1, "Address is required"),
   city: z.string().min(1, "City is required"),
   postalCode: z.string().regex(/^\d{3} \d{2}$/, "Invalid postal code"),
-  country: z.enum(["sv"]),
+  country: z.enum(["se"]),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 export function CheckoutForm({ disabled = false }: { disabled?: boolean }) {
+  const router = useRouter();
+
   const form = useForm<FormValues>({
     disabled,
     resolver: zodResolver(formSchema),
@@ -45,12 +50,19 @@ export function CheckoutForm({ disabled = false }: { disabled?: boolean }) {
       address: "",
       city: "",
       postalCode: "",
-      country: "sv",
+      country: "se",
     },
   });
 
   async function handleSubmit(data: FormValues) {
-    console.log(data);
+    const orderId = await submitOrder(data);
+    if (!orderId) {
+      toast.error("Failed to submit order. Please try again.");
+      return;
+    }
+
+    toast.success("Order placed successfully!");
+    router.push(`/orders/${orderId}`);
   }
 
   return (
@@ -175,7 +187,11 @@ export function CheckoutForm({ disabled = false }: { disabled?: boolean }) {
         </div>
 
         <div className="flex @sm/form:justify-end">
-          <Button type="submit" className="w-full @sm/form:w-auto">
+          <Button
+            type="submit"
+            className="w-full @sm/form:w-auto"
+            disabled={disabled || form.formState.isSubmitting}
+          >
             Place order
             <CheckCircle />
           </Button>

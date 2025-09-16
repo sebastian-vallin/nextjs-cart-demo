@@ -4,25 +4,31 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { ExternalLink } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const links = [
   { href: "/", label: "Products", exact: true },
+  { href: "/orders", label: "Orders" },
   { href: "/about", label: "About" },
 ];
 
-function NavbarLinks() {
+function NavbarLinks({ className }: { className?: string }) {
   const pathname = usePathname();
 
   return (
-    <ul className="flex gap-1 items-center">
+    <ul className={cn("flex gap-1 items-center", className)}>
       {links.map((link) => {
         const isActive = link.exact
           ? pathname === link.href
           : pathname.startsWith(link.href);
 
         return (
-          <li key={link.href}>
-            <Button asChild variant={isActive ? "secondary" : "ghost"}>
+          <li key={link.href} className="block">
+            <Button
+              asChild
+              variant={isActive ? "secondary" : "ghost"}
+              className="flex"
+            >
               <Link
                 href={link.href}
                 aria-current={isActive ? "page" : undefined}
@@ -35,7 +41,7 @@ function NavbarLinks() {
       })}
 
       <li>
-        <Button asChild variant="ghost">
+        <Button asChild variant="ghost" className="flex">
           <Link
             href="https://github.com/sebastian-vallin/nextjs-cart-demo"
             rel="noreferrer noopener"

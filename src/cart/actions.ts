@@ -71,6 +71,13 @@ export async function removeFromCart(productId: string) {
     ...prismaSelect,
   });
 
+  if (cart.items.length === 0) {
+    await prisma.cart.delete({ where: { id: cartId } });
+    cookieStore.delete(CART_COOKIE_NAME);
+    revalidatePath("/", "layout");
+    return null;
+  }
+
   cookieStore.set(CART_COOKIE_NAME, cart.id, COOKIE_OPTIONS);
   revalidatePath("/", "layout");
 

@@ -52,7 +52,10 @@ export async function CheckoutCart() {
                     </div>
 
                     <div className="font-medium">
-                      {(item.product.price / 100).toFixed(2)} kr
+                      {new Intl.NumberFormat("sv-SE", {
+                        style: "currency",
+                        currency: "SEK",
+                      }).format(item.product.price / 100)}
                     </div>
                     <div className="text-sm text-muted-foreground flex justify-end items-center gap-1">
                       <label htmlFor={`quantity-trigger-${item.productId}`}>
@@ -77,15 +80,30 @@ export async function CheckoutCart() {
         <div className="space-y-1.5">
           <div className="flex justify-between">
             <div>Subtotal</div>
-            <div>{(!cart ? 0 : cart.totalPrice / 100).toFixed(2)} kr</div>
+            <div>
+              {new Intl.NumberFormat("sv-SE", {
+                style: "currency",
+                currency: "SEK",
+              }).format(cart ? cart.totalPrice / 100 : 0)}
+            </div>
           </div>
           <div className="flex justify-between">
             <div>Shipping</div>
-            <div>{(shipping / 100).toFixed(2)} kr</div>
+            <div>
+              {new Intl.NumberFormat("sv-SE", {
+                style: "currency",
+                currency: "SEK",
+              }).format(shipping / 100)}
+            </div>
           </div>
           <div className="flex justify-between">
             <div>Total</div>
-            <div>{(orderTotal / 100).toFixed(2)} kr</div>
+            <div>
+              {new Intl.NumberFormat("sv-SE", {
+                style: "currency",
+                currency: "SEK",
+              }).format(orderTotal / 100)}
+            </div>
           </div>
         </div>
       </div>

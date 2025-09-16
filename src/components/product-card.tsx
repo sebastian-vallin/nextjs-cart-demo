@@ -68,7 +68,10 @@ function ProductCard({ product }: ProductCardProps) {
       <CardFooter className="mt-auto block space-y-4">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <span className="text-xl font-bold">
-            {(product.price.amount / 100).toFixed(2)} kr
+            {new Intl.NumberFormat("sv-SE", {
+              style: "currency",
+              currency: "SEK",
+            }).format(product.price.amount / 100)}
           </span>
           <Badge variant="outline">In Stock</Badge>
         </div>

@@ -16,9 +16,11 @@ export default async function Home() {
 
   return (
     <div>
-      <h1 className="text-4xl font-bold mb-6">Cart Demo</h1>
+      <h1 className="text-4xl font-bold mb-6 text-center md:text-start">
+        Cart Demo
+      </h1>
 
-      <div className="flex flex-wrap gap-8">
+      <div className="flex justify-center md:justify-start flex-wrap gap-8">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
