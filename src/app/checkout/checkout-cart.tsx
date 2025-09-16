@@ -3,10 +3,12 @@ import { getCart } from "@/cart/data";
 import { QuantitySelect } from "@/components/quantity-select";
 import { RemoveFromCart } from "@/components/remove-from-cart";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Frown } from "lucide-react";
 import { cookies } from "next/headers";
 import Image from "next/image";
+import Link from "next/link";
 
 const shipping = 4900;
 
@@ -78,6 +80,11 @@ export async function CheckoutCart() {
               ))}
             </div>
           )}
+          <div className="flex justify-end">
+            <Button asChild variant="outline">
+              <Link href="/">Continue shopping</Link>
+            </Button>
+          </div>
         </div>
       </TooltipProvider>
 

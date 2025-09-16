@@ -43,6 +43,7 @@ function NavbarLinks({ className }: { className?: string }) {
       <li>
         <Button asChild variant="ghost" className="flex">
           <Link
+            className="fill-current"
             href="https://github.com/sebastian-vallin/nextjs-cart-demo"
             rel="noreferrer noopener"
             target="_blank"

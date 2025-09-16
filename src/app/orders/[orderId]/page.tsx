@@ -81,23 +81,25 @@ export default async function OrderPage(props: PageProps<"/orders/[orderId]">) {
       label: "Pending",
       icon: <Clock className="h-4 w-4" />,
       className:
-        "border-amber-200 text-amber-700 bg-amber-50 dark:bg-amber-950/30",
+        "border-amber-200 text-amber-700 bg-amber-50 dark:border-amber-900/60 dark:text-amber-300 dark:bg-amber-950/30",
     },
     PAID: {
       label: "Paid",
       icon: <CheckCircle2 className="h-4 w-4" />,
       className:
-        "border-emerald-200 text-emerald-700 bg-emerald-50 dark:bg-emerald-950/30",
+        "border-emerald-200 text-emerald-700 bg-emerald-50 dark:border-emerald-900/60 dark:text-emerald-300 dark:bg-emerald-950/30",
     },
     COMPLETED: {
       label: "Completed",
       icon: <CheckCircle2 className="h-4 w-4" />,
-      className: "border-blue-200 text-blue-700 bg-blue-50 dark:bg-blue-950/30",
+      className:
+        "border-blue-200 text-blue-700 bg-blue-50 dark:border-blue-900/60 dark:text-blue-300 dark:bg-blue-950/30",
     },
     CANCELED: {
       label: "Canceled",
       icon: <XCircle className="h-4 w-4" />,
-      className: "border-red-200 text-red-700 bg-red-50 dark:bg-red-950/30",
+      className:
+        "border-red-200 text-red-700 bg-red-50 dark:border-red-900/60 dark:text-red-300 dark:bg-red-950/30",
     },
   };
 
