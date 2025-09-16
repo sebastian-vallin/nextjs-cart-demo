@@ -1,10 +1,13 @@
-import { getCartItems } from "@/cart/actions";
+import { getCart } from "@/cart/data";
 import { CheckoutCart } from "./checkout-cart";
 import { CheckoutForm } from "./checkout-form";
+import { CART_COOKIE_NAME } from "@/cart/constants";
+import { cookies } from "next/headers";
 
 export default async function CheckoutPage() {
-  const cartItems = await getCartItems();
-  const hasItems = cartItems.length > 0;
+  const cookieStore = await cookies();
+  const cartId = cookieStore.get(CART_COOKIE_NAME);
+  const cart = await getCart(cartId?.value);
 
   return (
     <div>
@@ -14,7 +17,7 @@ export default async function CheckoutPage() {
           <CheckoutCart />
         </div>
         <div className="flex-1">
-          <CheckoutForm disabled={!hasItems} />
+          <CheckoutForm disabled={!cart} />
         </div>
       </div>
     </div>

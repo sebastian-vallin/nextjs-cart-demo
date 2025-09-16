@@ -24,6 +24,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   customerInfos CustomerInfo[]
+  carts         Cart[]
 }
 
 model Product {
@@ -38,6 +39,7 @@ model Product {
   price   Price  @relation(fields: [priceId], references: [id], onDelete: Restrict)
 
   orderItems OrderItem[]
+  cartItems  CartItem[]
 }
 
 model Price {
@@ -110,4 +112,29 @@ model CustomerInfo {
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   orders Order[]
+}
+
+model Cart {
+  id        String   @id @default(nanoid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  items CartItem[]
+}
+
+model CartItem {
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cartId    String
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, productId])
+  @@index([productId])
 }

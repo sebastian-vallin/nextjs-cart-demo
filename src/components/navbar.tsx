@@ -11,7 +11,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
-import { getCartItems } from "@/cart/actions";
 import Image from "next/image";
 import { Frown, ShoppingBag } from "lucide-react";
 import { NavbarLinks } from "./navbar-links";
@@ -19,10 +18,11 @@ import { TooltipProvider } from "./ui/tooltip";
 import { RemoveFromCart } from "./remove-from-cart";
 import { QuantitySelect } from "./quantity-select";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import { getCart, getCartCookie } from "@/cart/data";
 
 async function Navbar() {
-  const cartItems = await getCartItems();
-  const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const cartId = await getCartCookie();
+  const cart = await getCart(cartId);
 
   return (
     <nav className="border-b shadow-xs">
@@ -41,7 +41,7 @@ async function Navbar() {
                     className="absolute -top-1.5 -right-2.5"
                     aria-label="Cart item count"
                   >
-                    {cartItemCount}
+                    {cart?.itemCount ?? 0}
                   </Badge>
                 </Button>
               </SheetTrigger>
@@ -50,11 +50,11 @@ async function Navbar() {
                 <SheetHeader>
                   <SheetTitle>Your Cart</SheetTitle>
                   <SheetDescription>
-                    You have {cartItemCount} items in your cart.
+                    You have {cart?.itemCount ?? 0} items in your cart.
                   </SheetDescription>
                 </SheetHeader>
 
-                {!cartItemCount ? (
+                {!cart ? (
                   <div className="px-4">
                     <Alert className="text-center">
                       <AlertTitle>
@@ -71,33 +71,35 @@ async function Navbar() {
                 ) : (
                   <TooltipProvider>
                     <div className="px-4 space-y-2">
-                      {cartItems.map((item) => (
+                      {cart?.items.map((item) => (
                         <div
-                          key={item.id}
+                          key={`${item.cartId}-${item.productId}`}
                           className="flex gap-4 w-full border rounded-xl p-3"
                         >
                           <Image
-                            src={item.imageUrl}
-                            alt={item.name}
+                            src={item.product.imageUrl}
+                            alt={item.product.name}
                             className="w-16 h-[4.25rem] object-cover rounded-sm"
                             width={200}
                             height={200}
                           />
                           <div className="flex-1 grid grid-cols-2">
-                            <h3 className="font-medium">{item.name}</h3>
+                            <h3 className="font-medium">{item.product.name}</h3>
                             <div className="flex justify-end">
-                              <RemoveFromCart productId={item.id} />
+                              <RemoveFromCart productId={item.product.id} />
                             </div>
 
                             <div className="font-medium">
-                              {(item.price / 100).toFixed(2)} kr
+                              {(item.product.price / 100).toFixed(2)} kr
                             </div>
                             <div className="text-sm text-muted-foreground flex justify-end items-center gap-1">
-                              <label htmlFor={`quantity-trigger-${item.id}`}>
+                              <label
+                                htmlFor={`quantity-trigger-${item.productId}`}
+                              >
                                 Qty
                               </label>
                               <QuantitySelect
-                                productId={item.id}
+                                productId={item.productId}
                                 defaultQuantity={item.quantity}
                                 maxQuantity={Math.max(item.quantity, 10)}
                               />
@@ -112,11 +114,11 @@ async function Navbar() {
                 <SheetFooter>
                   <SheetClose asChild>
                     <Button
-                      asChild={!!cartItemCount}
-                      disabled={!cartItemCount}
+                      asChild={!!cart}
+                      disabled={!cart}
                       className="w-full"
                     >
-                      {!cartItemCount ? (
+                      {!cart ? (
                         <>
                           <ShoppingBag strokeWidth={2.5} />
                           Go to checkout
