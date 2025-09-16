@@ -48,7 +48,10 @@ export async function CheckoutCart() {
                   <div className="flex-1 grid grid-cols-2">
                     <h3 className="font-medium">{item.product.name}</h3>
                     <div className="flex justify-end">
-                      <RemoveFromCart productId={item.productId} />
+                      <RemoveFromCart
+                        productId={item.productId}
+                        productName={item.product.name}
+                      />
                     </div>
 
                     <div className="font-medium">
@@ -58,7 +61,10 @@ export async function CheckoutCart() {
                       }).format(item.product.price / 100)}
                     </div>
                     <div className="text-sm text-muted-foreground flex justify-end items-center gap-1">
-                      <label htmlFor={`quantity-trigger-${item.productId}`}>
+                      <label
+                        htmlFor={`quantity-trigger-${item.productId}`}
+                        aria-label="Quantity"
+                      >
                         Qty
                       </label>
                       <QuantitySelect

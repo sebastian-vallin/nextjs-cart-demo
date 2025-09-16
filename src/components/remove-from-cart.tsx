@@ -8,7 +8,13 @@ import { removeFromCart } from "@/cart/actions";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { cn } from "@/lib/utils";
 
-function RemoveFromCart({ productId }: { productId: string }) {
+function RemoveFromCart({
+  productId,
+  productName,
+}: {
+  productId: string;
+  productName: string;
+}) {
   const [isRemoving, setIsRemoving] = React.useState(false);
 
   function remove() {
@@ -36,7 +42,7 @@ function RemoveFromCart({ productId }: { productId: string }) {
               "hover:bg-destructive hover:text-white hover:shadow-xs focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:hover:bg-destructive/60"
           )}
         >
-          <span className="sr-only">Remove from cart</span>
+          <span className="sr-only">Remove {productName} from cart</span>
           {isRemoving ? (
             <Loader2 className="size-3.5 animate-spin" strokeWidth={2.5} />
           ) : (

@@ -81,6 +81,7 @@ function ProductCard({ product }: ProductCardProps) {
           className="w-full font-semibold"
           variant="secondary"
           size="lg"
+          aria-label={`Add ${product.name} to cart`}
         >
           {isAdding ? (
             <Loader2 strokeWidth={2.5} className="animate-spin" />

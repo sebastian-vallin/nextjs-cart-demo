@@ -27,13 +27,17 @@ async function NavbarCart() {
     <li className="pr-2.5">
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant="ghost" className="relative" size="icon">
+          <Button
+            variant="ghost"
+            className="relative"
+            size="icon"
+            aria-label={`Open Cart (${cart?.itemCount ?? 0} items)`}
+          >
             <ShoppingBag />
             <span className="sr-only">Open Cart</span>
             <Badge
               variant="outline"
               className="absolute -top-1.5 -right-2.5 bg-background"
-              aria-label="Cart item count"
             >
               {cart?.itemCount ?? 0}
             </Badge>
@@ -80,7 +84,10 @@ async function NavbarCart() {
                     <div className="flex-1 grid grid-cols-2">
                       <h3 className="font-medium">{item.product.name}</h3>
                       <div className="flex justify-end">
-                        <RemoveFromCart productId={item.product.id} />
+                        <RemoveFromCart
+                          productId={item.product.id}
+                          productName={item.product.name}
+                        />
                       </div>
 
                       <div className="font-medium">
@@ -90,7 +97,10 @@ async function NavbarCart() {
                         }).format(item.product.price / 100)}
                       </div>
                       <div className="text-sm text-muted-foreground flex justify-end items-center gap-1">
-                        <label htmlFor={`quantity-trigger-${item.productId}`}>
+                        <label
+                          htmlFor={`quantity-trigger-${item.productId}`}
+                          aria-label="Quantity"
+                        >
                           Qty
                         </label>
                         <QuantitySelect

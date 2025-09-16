@@ -46,6 +46,7 @@ function NavbarLinks({ className }: { className?: string }) {
             href="https://github.com/sebastian-vallin/nextjs-cart-demo"
             rel="noreferrer noopener"
             target="_blank"
+            aria-label="View on GitHub"
           >
             <svg
               role="img"
