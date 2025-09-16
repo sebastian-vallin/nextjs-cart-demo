@@ -23,6 +23,7 @@ COPY . .
 # Disable telemetry during the build
 ENV NEXT_TELEMETRY_DISABLED=1
 
+RUN bunx prisma generate
 RUN bun run build
 RUN bunx prisma migrate deploy
 
